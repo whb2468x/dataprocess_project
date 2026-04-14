@@ -21,6 +21,6 @@ jobs:
       - name: Upgrade pip
         run: python -m pip install --upgrade pip setuptools wheel
       - name: Install package and dependencies
-        run: pip install -e ".[dev]" || pip install -e .
+        run: pip install -e . && pip install pytest
       - name: Run tests
-        run: python -m pytest tests/ -v || python -m unittest discover -s tests -v
+        run: python -m pytest tests/ -v
