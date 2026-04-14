@@ -1,0 +1,91 @@
+{
+  "datasets": {
+    "main": "input/main.tsv",
+    "ref": "input/reference.tsv"
+  },
+  "steps": [
+    {
+      "operation": "clean",
+      "input": "main",
+      "output": "main_clean",
+      "params": {
+        "normalize_column_names": true,
+        "strip_values": true,
+        "auto_numeric": true
+      }
+    },
+    {
+      "operation": "filter",
+      "input": "main_clean",
+      "output": "filtered",
+      "params": {
+        "query": "`abundance` > 0"
+      }
+    },
+    {
+      "operation": "derive",
+      "input": "filtered",
+      "output": "derived",
+      "params": {
+        "expressions": {
+          "log_abundance": "np.log2(`abundance` + 1)"
+        }
+      }
+    },
+    {
+      "operation": "aggregate",
+      "input": "derived",
+      "output": "summary",
+      "params": {
+        "group_cols": [
+          "sample_type"
+        ],
+        "value_cols": [
+          "abundance",
+          "log_abundance"
+        ],
+        "aggfuncs": [
+          "count",
+          "sum",
+          "mean"
+        ]
+      }
+    },
+    {
+      "operation": "join",
+      "left": "derived",
+      "right": "ref",
+      "output": "joined",
+      "params": {
+        "left_on": "feature_id",
+        "right_on": "feature_id",
+        "how": "left"
+      }
+    },
+    {
+      "operation": "matrix",
+      "input": "joined",
+      "reference_input": "ref",
+      "output": "feature_matrix",
+      "params": {
+        "group_col": "sample_id",
+        "feature_col": "feature_id",
+        "value_col": "abundance",
+        "reference_col": "feature_id",
+        "aggfunc": "sum",
+        "fill_value": 0
+      }
+    }
+  ],
+  "exports": [
+    {
+      "dataset": "summary",
+      "path": "output/summary.tsv"
+    },
+    {
+      "dataset": "feature_matrix",
+      "path": "output/feature_matrix.tsv"
+    }
+  ]
+}
+

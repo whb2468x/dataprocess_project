@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dataprocess-flex"
+version = "1.0.0"
+description = "A modular, extensible data processing toolkit for tabular and grouped data."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+license-files = ["LICENSE"]
+authors = [
+  { name = "whb2468x" },
+]
+keywords = ["data-processing", "pipeline", "pandas", "analysis", "batch-processing"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.2",
+]
+
+[project.scripts]
+dataprocess = "dataprocessor.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/whb2468x/dataprocess_project"
+Repository = "https://github.com/whb2468x/dataprocess_project"
+Bug Tracker = "https://github.com/whb2468x/dataprocess_project/issues"
+
+[tool.setuptools]
+packages = ["dataprocessor", "dataprocessor.operations"]
