@@ -26,6 +26,11 @@ dependencies = [
   "pandas>=2.2",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+]
+
 [project.scripts]
 dataprocess = "dataprocessor.cli:main"
 
